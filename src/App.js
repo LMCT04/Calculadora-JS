@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react";
+import Display from "./components/display/display";
+import ButtonsPad from "./components/btnPad/buttonsPad";
+import operation from "./logic/operation";
+import style from './App.module.css'
 
 function App() {
+
+  const [state, setState] = useState({
+    total: null,
+    next: null,
+    operation: null,
+  })
+
+  const handleClick = btnName => {
+    setState(operation(state, btnName))
+    console.log('estado: ', state);
+    console.log('nombre:', btnName);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={style['app']}>
+      <div>
+        <Display value={state.next || state.total || '0'} />
+        <ButtonsPad clickHandle={handleClick} />
+      </div>
+      <p> total: {state.total}</p>
+      <p> next: {state.next}</p>
+      <p> operation: {state.operation}</p>
     </div>
   );
 }
